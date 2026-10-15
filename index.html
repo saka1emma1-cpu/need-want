@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Na Need or Na Want?</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body{font-family:system-ui;padding:15px;max-width:420px;margin:auto;background:#f8f9fa}
+.card{background:white;padding:15px;border-radius:12px;margin:10px 0;box-shadow:0 2px 6px #0001}
+input,select,button,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}
+button{background:#111;color:white;font-weight:bold}
+.score{font-size:32px;font-weight:bold;text-align:center}
+.need{border-left:5px solid green}
+.want{border-left:5px solid red}
+small{color:#666}
+</style>
+</head>
+<body>
+<h2>🧠 Na Need or Na Want?</h2>
+<div class="card"><div class="score" id="score">Score: 0</div><small>Your Discipline Level — Train your brain</small></div>
+
+<div class="card">
+<input id="item" placeholder="What you want to buy? e.g Slippers">
+<input id="price" type="number" placeholder="Price ₦ e.g 5000">
+<select id="choice"><option>Choose...</option><option>NEED</option><option>WANT</option></select>
+<textarea id="why" placeholder="Why? Be honest... e.g to go to work / for shakara"></textarea>
+<button onclick="decide()">Check My Brain</button>
+<div id="result" style="margin-top:10px"></div>
+</div>
+
+<div class="card"><h4>My History</h4><div id="history"></div></div>
+<script src="app.js"></script>
+</body>
+</html>
