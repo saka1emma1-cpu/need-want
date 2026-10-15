@@ -1,4 +1,4 @@
-const CACHE = "grfs-v6";
+const CACHE = "nwt";
 const FILES = ["./", "./index.html", "./app.js", "./manifest.json"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)));
