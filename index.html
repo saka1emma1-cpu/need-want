@@ -4,180 +4,187 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<title>Na Need or Na Want? Money Advisor</title>
+<title>Money Advisor v6 - Pidgin + History + Share</title>
 <style>
 * { box-sizing:border-box; margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; }
 html,body { width:100%; min-height:100vh; background:#f5f5f7; }
 .app { width:100%; min-height:100vh; background:white; display:flex; flex-direction:column; }
-.header { padding:20px 16px; font-weight:900; font-size:20px; border-bottom:1px solid #eee; background:white; position:sticky; top:0; z-index:10; display:flex; justify-content:space-between; align-items:center; }
-.score-box { background:#111; color:white; border-radius:16px; padding:18px; margin:12px 16px; display:flex; justify-content:space-between; align-items:center; }
-.form { padding:16px; display:flex; flex-direction:column; gap:12px; }
-.form input, .form select, .form textarea { width:100%; padding:18px 14px; border-radius:12px; border:2px solid #e5e5e5; font-size:16px; background:white; outline:none; }
-.form input:focus { border-color:#111; }
-.row { display:flex; gap:10px; }
+.header { padding:16px; font-weight:900; font-size:19px; border-bottom:1px solid #eee; background:white; position:sticky; top:0; z-index:10; display:flex; justify-content:space-between; align-items:center; }
+.score-box { background:#111; color:white; border-radius:16px; padding:16px; margin:10px 16px; display:flex; justify-content:space-between; align-items:center; }
+.form { padding:12px 16px; display:flex; flex-direction:column; gap:10px; }
+.form input, .form select { width:100%; padding:16px 14px; border-radius:12px; border:2px solid #e5e5e5; font-size:15px; background:white; outline:none; }
+.row { display:flex; gap:8px; }
 .row input { flex:1; }
-.btn { background:#111; color:white; padding:18px; border:none; border-radius:12px; font-size:17px; font-weight:900; width:100%; cursor:pointer; }
-.btn-green { background:#00c853; }
-.btn-red { background:#ff1744; }
-.btn-outline { background:white; border:2px solid #111; color:#111; }
-.list-item { background:#fafafa; padding:12px; border-radius:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; border-left:5px solid #ddd; }
+.btn { background:#111; color:white; padding:16px; border:none; border-radius:12px; font-size:15px; font-weight:900; width:100%; cursor:pointer; }
+.btn-green { background:#00c853; } .btn-blue { background:#2962ff; } .btn-outline { background:white; border:2px solid #111; color:#111; }
+.list-item { background:#fafafa; padding:10px; border-radius:10px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; border-left:5px solid #ddd; }
 .list-item.need { border-left-color:#00c853; } .list-item.want { border-left-color:#ff1744; }
-#advice { margin:12px 16px; padding:18px; border-radius:14px; background:#fffde7; border:2px solid #111; display:none; line-height:1.6; font-size:16px; white-space:pre-line; }
-.history { padding:16px; background:#f9f9f9; flex:1; }
-.badge { font-size:11px; padding:3px 8px; border-radius:20px; font-weight:800; }
+#advice { margin:10px 16px; padding:16px; border-radius:14px; background:#fffde7; border:2px solid #111; display:none; line-height:1.6; font-size:15px; white-space:pre-line; }
+.history-section { padding:16px; background:#f9f9f9; }
+.day-card { background:white; padding:12px; border-radius:10px; margin-bottom:8px; border:1px solid #eee; }
+.badge { font-size:10px; padding:2px 7px; border-radius:20px; font-weight:800; }
 .badge-need { background:#e8f5e9; color:#00c853; } .badge-want { background:#ffebee; color:#ff1744; }
+.toggle { display:flex; gap:6px; background:#eee; padding:4px; border-radius:20px; width:fit-content; }
+.toggle button { padding:6px 12px; border-radius:20px; border:none; font-weight:800; font-size:12px; }
+.toggle .active { background:#111; color:white; }
 </style>
 </head>
 <body>
 <div class="app">
-<div class="header"><span>🧠 Money Advisor v5</span><span id="score" style="font-size:14px; background:#111; color:white; padding:6px 10px; border-radius:20px;">Score: 0</span></div>
+<div class="header"><span>🧠 Money Advisor v6</span><span id="score" style="font-size:13px; background:#111; color:white; padding:5px 10px; border-radius:20px;">Score: 0</span></div>
 
 <div class="score-box">
-<div><small>Today Income</small><h2 style="font-size:28px;">₦<span id="incomeDisplay">0</span></h2></div>
-<div style="text-align:right;"><small>Balance Left</small><h2 id="balanceDisplay" style="font-size:24px;">₦0</h2></div>
+<div><small>Today Income</small><h2 style="font-size:26px;">₦<span id="incomeDisplay">0</span></h2></div>
+<div style="text-align:right;"><small>Balance Left</small><h2 id="balanceDisplay" style="font-size:22px;">₦0</h2></div>
 </div>
 
 <div class="form">
 <div class="row">
-<input id="dailyIncome" type="number" placeholder="Today you made ₦? e.g 5000">
-<button class="btn" style="width:110px;" onclick="setIncome()">Set</button>
+<input id="dailyIncome" type="number" placeholder="Today you made ₦? e.g 10000">
+<button class="btn" style="width:90px;" onclick="setIncome()">Set</button>
 </div>
 
-<h4 style="margin-top:8px;">How you want to spend today?</h4>
-<input id="item" placeholder="Item: e.g Rice, Data, Shawarma">
+<h4 style="margin-top:4px;">How you want to spend?</h4>
+<input id="item" placeholder="Item: e.g Fuel, Rice, Clothes">
 <div class="row">
 <input id="price" type="number" placeholder="Price ₦">
-<input id="why" placeholder="Why? family eat">
+<input id="why" placeholder="Why?">
 </div>
 <div class="row">
-<select id="choice" style="flex:1; padding:18px 14px; border-radius:12px; border:2px solid #e5e5e5;">
-<option value="">You think NEED or WANT?</option><option>NEED</option><option>WANT</option>
+<select id="choice" style="flex:1; padding:16px 14px; border-radius:12px; border:2px solid #e5e5e5;">
+<option value="">NEED or WANT?</option><option>NEED</option><option>WANT</option>
 </select>
-<button class="btn btn-green" style="width:110px;" onclick="addItem()">+ Add</button>
+<button class="btn btn-green" style="width:90px;" onclick="addItem()">+ Add</button>
 </div>
 
 <div id="spendList"></div>
 
-<button class="btn" onclick="advise()" style="margin-top:6px;">💡 Get My Money Advice</button>
-<button class="btn btn-outline" onclick="clearDay()">🗑️ Clear Today</button>
+<div class="toggle" style="margin:4px 0;">
+<button id="btnEng" class="active" onclick="setLang('en')">English</button>
+<button id="btnPid" onclick="setLang('pidgin')">Pidgin 🔥</button>
+</div>
+
+<button class="btn" onclick="advise()">💡 Get My Money Advice</button>
+<div class="row">
+<button class="btn btn-blue" style="flex:1;" onclick="sharePlan()">📤 Share on WhatsApp</button>
+<button class="btn btn-outline" style="flex:1;" onclick="clearDay()">🗑️ Clear</button>
+</div>
 </div>
 
 <div id="advice"></div>
-<div class="history"><h4>Today's Plan</h4><small id="summaryText"></small></div>
+
+<div class="history-section">
+<h4>📊 Last 7 Days History</h4>
+<div id="historyList" style="margin-top:10px;"></div>
+<button class="btn btn-outline" style="margin-top:10px; padding:10px; font-size:13px;" onclick="clearHistory()">Clear History</button>
+<div style="margin-top:12px;"><small id="summaryText"></small></div>
+</div>
 </div>
 
 <script>
 let income = parseInt(localStorage.getItem('nw_income')||'0');
 let items = JSON.parse(localStorage.getItem('nw_items')||'[]');
 let score = parseInt(localStorage.getItem('nw_score')||'0');
-const NEED_WORDS = ['rice','garri','beans','food','eat','family','medicine','drug','hospital','school','fees','book','rent','house','transport','fuel','light','nepa','water','work','job','business','learn','child','baby','uniform','provision','oil','salt'];
-const WANT_WORDS = ['shawarma','pizza','burger','iphone','ps5','bet','alcohol','beer','club','party','wig','makeup','jewelry','gold','shoe new','cloth new','netflix','shisha','game'];
+let history = JSON.parse(localStorage.getItem('nw_history')||'[]');
+let lang = localStorage.getItem('nw_lang')||'en';
+
+const NEED_WORDS = ['rice','garri','beans','food','eat','family','medicine','drug','hospital','school','fees','book','rent','house','transport','fuel','light','nepa','water','work','job','business','learn','child','baby','uniform','provision','oil','salt','fuel','motor','bike'];
+const WANT_WORDS = ['shawarma','pizza','burger','iphone','ps5','bet','alcohol','beer','club','party','wig','makeup','jewelry','gold','shoe new','cloth new','netflix','shisha','game','clothes','aso ebi','party cloth'];
 
 function smartDecide(text){
   text=text.toLowerCase(); let n=0,w=0;
   NEED_WORDS.forEach(x=>{if(text.includes(x)) n+=2});
   WANT_WORDS.forEach(x=>{if(text.includes(x)) w+=2});
-  if(text.match(/family.*eat|my family|children.*eat|school|for work|business|to work|go to work/)) n+=5;
-  if(text.match(/show off|shakara|flex|party|enjoy|impress/)) w+=4;
+  if(text.match(/family.*eat|my family|children|baby|for work|business|to work|school/)) n+=5;
+  if(text.match(/friends party|show off|shakara|flex|party|enjoy|impress/)) w+=4;
   if(n>w) return 'NEED'; if(w>n) return 'WANT'; return 'UNKNOWN';
 }
-
-function setIncome(){
-  let v=parseInt(document.getElementById('dailyIncome').value);
-  if(!v) return alert('Enter today income');
-  income=v; localStorage.setItem('nw_income',income);
-  render();
-}
-
+function setLang(l){ lang=l; localStorage.setItem('nw_lang',l); document.getElementById('btnEng').className=l=='en'?'active':''; document.getElementById('btnPid').className=l=='pidgin'?'active':''; if(items.length) advise(); }
+function setIncome(){ let v=parseInt(document.getElementById('dailyIncome').value); if(!v) return alert('Enter income'); income=v; localStorage.setItem('nw_income',income); render(); }
 function addItem(){
-  let item=document.getElementById('item').value.trim();
-  let price=parseInt(document.getElementById('price').value)||0;
-  let why=document.getElementById('why').value.trim();
-  let userChoice=document.getElementById('choice').value;
+  let item=document.getElementById('item').value.trim(); let price=parseInt(document.getElementById('price').value)||0; let why=document.getElementById('why').value.trim(); let userChoice=document.getElementById('choice').value;
   if(!item||!price) return alert('Enter item and price');
-  let brain=smartDecide(item+' '+why);
-  if(brain==='UNKNOWN') brain=userChoice||'NEED';
-  items.push({item,price,why:why||'',userChoice,brain,id:Date.now()});
-  localStorage.setItem('nw_items',JSON.stringify(items));
-  document.getElementById('item').value=''; document.getElementById('price').value=''; document.getElementById('why').value='';
-  render();
+  let brain=smartDecide(item+' '+why); if(brain==='UNKNOWN') brain=userChoice||'NEED';
+  items.push({item,price,why,userChoice,brain,id:Date.now()}); localStorage.setItem('nw_items',JSON.stringify(items));
+  document.getElementById('item').value=''; document.getElementById('price').value=''; document.getElementById('why').value=''; render();
 }
-
-function deleteItem(id){
-  items=items.filter(x=>x.id!==id);
-  localStorage.setItem('nw_items',JSON.stringify(items));
-  render();
-}
+function deleteItem(id){ items=items.filter(x=>x.id!==id); localStorage.setItem('nw_items',JSON.stringify(items)); render(); }
 
 function advise(){
-  if(items.length===0) return alert('Add what you want to buy first');
-  let needs=items.filter(i=>i.brain==='NEED');
-  let wants=items.filter(i=>i.brain==='WANT');
-  let needTotal=needs.reduce((s,i)=>s+i.price,0);
-  let wantTotal=wants.reduce((s,i)=>s+i.price,0);
-  let total=needTotal+wantTotal;
-  let balance=income-total;
-  let adviceEl=document.getElementById('advice'); adviceEl.style.display='block';
+  if(items.length===0) return alert('Add items first');
+  let needs=items.filter(i=>i.brain==='NEED'); let wants=items.filter(i=>i.brain==='WANT');
+  let needTotal=needs.reduce((s,i)=>s+i.price,0); let wantTotal=wants.reduce((s,i)=>s+i.price,0); let total=needTotal+wantTotal; let save=income-total;
+  let adviceEl=document.getElementById('advice'); adviceEl.style.display='block'; let msg='';
+  let isPidgin = lang==='pidgin';
 
-  let msg='';
   if(income===0){
-    msg=`⚠️ You never set today income!\nSet how much you made today first.`;
+    msg = isPidgin ? `⚠️ Omo you never put how much you make today! Put income first.` : `⚠️ You never set today income! Set income first.`;
   } else if(total>income){
     let over=total-income;
-    msg=`🚨 OVERSPENDING! You want to spend ₦${total} but you made ₦${income} today.\nYou are OVER by ₦${over}.\n\n`;
-    msg+=`✅ MUST DO (NEEDS): ₦${needTotal}\n${needs.map(n=>` • ${n.item} - ₦${n.price} (${n.why||'survival'})`).join('\n')}\n\n`;
-    if(wants.length>0){
-      msg+=`❌ CUT THESE WANTS (Save ₦${wantTotal}):\n${wants.map(w=>` • ${w.item} - ₦${w.price} = ${Math.floor(w.price/200)} days lost`).join('\n')}\n\n`;
-      msg+=`💡 ADVICE: Pay NEEDS first (₦${needTotal}). Keep ₦${income-needTotal} leftover. Remove all WANTS today. Your discipline score -3 if you still buy wants.`;
-      score=Math.max(0,score-1);
+    if(isPidgin){
+      msg=`🚨 Omo you don over spend! You wan spend ₦${total} but you make ₦${income}. Over by ₦${over}!\n\n`;
+      msg+=`✅ WETIN YOU MUST PAY (NEED): ₦${needTotal}\n${needs.map(n=>` • ${n.item} - ₦${n.price}`).join('\n')}\n\n`;
+      if(wants.length>0){ msg+=`❌ COMOT THESE JAJE WANTS:\n${wants.map(w=>` • ${w.item} - ₦${w.price}`).join('\n')}\n\n💡 ADVICE: Guy, pay NEEDS first, leave WANTS. If you buy WANT today, you dey kill your tomorrow. Save that ₦${wantTotal}!\n`; }
     } else {
-      msg+=`💡 Even your NEEDS are too much. Remove cheapest need or borrow wisely.`;
+      msg=`🚨 OVERSPENDING! Spend ₦${total} but made ₦${income}. OVER by ₦${over}.\n\n✅ MUST PAY (NEEDS): ₦${needTotal}\n${needs.map(n=>` • ${n.item} - ₦${n.price}`).join('\n')}\n\n`;
+      if(wants.length>0){ msg+=`❌ CUT WANTS: ₦${wantTotal}\n${wants.map(w=>` • ${w.item} - ₦${w.price}`).join('\n')}\n\n💡 Pay NEEDS first (₦${needTotal}). Remove WANTS.`; }
     }
+    score=Math.max(0,score-1);
   } else {
-    let save=income-total;
-    msg=`✅ GOOD PLAN! Income ₦${income}, Spend ₦${total}, Save ₦${save}\n\n`;
-    msg+=`NEEDS (₦${needTotal}) — Pay first:\n${needs.map(n=>` • ${n.item} - ₦${n.price}`).join('\n')||' (none)'}\n\n`;
-    if(wants.length>0){
-      msg+=`WANTS (₦${wantTotal}) — Only if you still have:\n${wants.map(w=>` • ${w.item} - ₦${w.price}`).join('\n')}\n\n`;
-      if(save<income*0.2){
-        msg+=`💡 Advice: You are spending almost all. Save at least 20% (₦${Math.floor(income*0.2)}). Consider removing 1 WANT. Score +2 if you save.`;
-      } else {
-        msg+=`💡 You can afford 1 small WANT and still save ₦${save}. Great discipline! Score +5`;
-        score+=5;
-      }
+    if(isPidgin){
+      msg=`✅ Correct guy! Income ₦${income}, Spend ₦${total}, Save ₦${save}\n\n`;
+      msg+=`NEEDS (₦${needTotal}):\n${needs.map(n=>` • ${n.item} - ₦${n.price}`).join('\n')||' none'}\n\n`;
+      if(wants.length>0){
+        msg+=`WANTS (₦${wantTotal}):\n${wants.map(w=>` • ${w.item} - ₦${w.price}`).join('\n')}\n\n`;
+        if(save<income*0.2){ msg+=`💡 Omo you dey spend almost all! Try save at least 20% (₦${Math.floor(income*0.2)}). Comot one WANT, make you get sense. +2 if you save.`; }
+        else { msg+=`💡 You get sense! You fit buy 1 small WANT and still save ₦${save}. Discipline! +5`; score+=5; }
+      } else { msg+=`🔥 You be boss! No WANT, you save ₦${save}. Master! +10`; score+=10; }
     } else {
-      msg+=`🔥 Perfect! No wants. You save ₦${save}. Master level! Score +10`;
-      score+=10;
+      msg=`✅ GOOD PLAN! Income ₦${income}, Spend ₦${total}, Save ₦${save}\n\n`;
+      msg+=`NEEDS (₦${needTotal}) – Pay first:\n${needs.map(n=>` • ${n.item} - ₦${n.price}`).join('\n')||' none'}\n\n`;
+      if(wants.length>0){
+        msg+=`WANTS (₦${wantTotal}) – Only if you still have:\n${wants.map(w=>` • ${w.item} - ₦${w.price}`).join('\n')}\n\n`;
+        if(save<income*0.2){ msg+=`💡 You are spending almost all. Save at least 20% (₦${Math.floor(income*0.2)}). Consider removing 1 WANT. +2 if you save.`; }
+        else { msg+=`💡 You can afford 1 small WANT and still save ₦${save}. Great! +5`; score+=5; }
+      } else { msg+=`🔥 Perfect! No wants. Save ₦${save}. Master! +10`; score+=10; }
     }
+    // Save to history
+    history.unshift({date:new Date().toLocaleDateString()+' '+new Date().toLocaleTimeString(), income, total, save, needs:needTotal, wants:wantTotal, count:items.length});
+    history = history.slice(0,7);
+    localStorage.setItem('nw_history',JSON.stringify(history));
   }
   adviceEl.innerText=msg;
   localStorage.setItem('nw_score',score);
   render();
 }
 
+function sharePlan(){
+  if(items.length===0) return alert('Add items first');
+  let total=items.reduce((s,i)=>s+i.price,0); let save=income-total;
+  let text=`🧠 My Money Plan Today - Need or Want?\n\nIncome: ₦${income}\n`;
+  items.forEach(i=>{ text+=`${i.brain==='NEED'?'✅':'❌'} ${i.item} - ₦${i.price} (${i.brain})\n`; });
+  text+=`\nTotal: ₦${total} | Save: ₦${save} | Score: ${score}\nCheck your own: https://saka1emma1-cpu.github.io/need-want/`;
+  let url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(url,'_blank');
+}
+
 function render(){
   document.getElementById('incomeDisplay').innerText=income;
-  let total=items.reduce((s,i)=>s+i.price,0);
-  let bal=income-total;
-  let balEl=document.getElementById('balanceDisplay');
-  balEl.innerText='₦'+bal;
-  balEl.style.color=bal<0?'#ff1744':'#00c853';
+  let total=items.reduce((s,i)=>s+i.price,0); let bal=income-total;
+  let balEl=document.getElementById('balanceDisplay'); balEl.innerText='₦'+bal; balEl.style.color=bal<0?'#ff1744':'#00c853';
   document.getElementById('score').innerText='Score: '+score;
+  document.getElementById('btnEng').className=lang=='en'?'active':''; document.getElementById('btnPid').className=lang=='pidgin'?'active':'';
   document.getElementById('spendList').innerHTML=items.map(i=>`
     <div class="list-item ${i.brain==='NEED'?'need':'want'}">
       <div><b>${i.item} - ₦${i.price}</b> <span class="badge ${i.brain==='NEED'?'badge-need':'badge-want'}">${i.brain}</span><br><small>${i.why||''} (You: ${i.userChoice||i.brain})</small></div>
       <button onclick="deleteItem(${i.id})" style="background:none; border:none; font-size:20px;">✕</button>
     </div>
   `).join('');
-  document.getElementById('summaryText').innerText= items.length? `Total planned: ₦${total} | Needs: ₦${items.filter(i=>i.brain==='NEED').reduce((s,i)=>s+i.price,0)} | Wants: ₦${items.filter(i=>i.brain==='WANT').reduce((s,i)=>s+i.price,0)}` : 'Add items you want to spend on today';
+  document.getElementById('summaryText').innerText= items.length? `Total: ₦${total} | Needs: ₦${items.filter(i=>i.brain==='NEED').reduce((s,i)=>s+i.price,0)} | Wants: ₦${items.filter(i=>i.brain==='WANT').reduce((s,i)=>s+i.price,0)}` : 'Add items';
+  document.getElementById('historyList').innerHTML = history.length? history.map(h=>`<div class="day-card"><b>${h.date}</b><br><small>Income ₦${h.income} | Spent ₦${h.total} (Need ₦${h.needs} + Want ₦${h.wants}) | Saved ₦${h.save}</small></div>`).join('') : '<small style="color:#999">No history yet — Get advice to save</small>';
 }
-
-function clearDay(){
-  if(confirm('Clear today list?')){
-    items=[]; localStorage.removeItem('nw_items'); document.getElementById('advice').style.display='none'; render();
-  }
-}
-
+function clearDay(){ if(confirm('Clear today?')){ items=[]; localStorage.removeItem('nw_items'); document.getElementById('advice').style.display='none'; render(); } }
+function clearHistory(){ if(confirm('Clear 7 days history?')){ history=[]; localStorage.removeItem('nw_history'); render(); } }
 render();
 if('serviceWorker' in navigator){ navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())); caches.keys().then(ks=>ks.forEach(k=>caches.delete(k))); }
 </script>
