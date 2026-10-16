@@ -1,35 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Na Need or Na Want?</title>
 <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
 <style>
-body{font-family:system-ui;padding:15px;max-width:420px;margin:auto;background:#f8f9fa}
-.card{background:white;padding:15px;border-radius:12px;margin:10px 0;box-shadow:0 2px 6px #0001}
-input,select,button,textarea{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:1px solid #ccc;font-size:16px;box-sizing:border-box}
-button{background:#111;color:white;font-weight:bold}
-.score{font-size:32px;font-weight:bold;text-align:center}
-.need{border-left:5px solid green}
-.want{border-left:5px solid red}
-small{color:#666}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+body{background:#f5f5f7;color:#111;min-height:100vh;width:100%}
+.app{width:100%;min-height:100vh;background:white;display:flex;flex-direction:column}
+.header{padding:20px 16px 10px;position:sticky;top:0;background:white;z-index:10;border-bottom:1px solid #eee}
+.header h1{font-size:22px;font-weight:800}
+.score-box{background:#111;color:white;border-radius:16px;padding:20px;margin:12px 16px;text-align:center}
+.score-box h2{font-size:36px;font-weight:900}
+.score-box small{opacity:0.7;font-size:13px}
+.form{padding:16px;display:flex;flex-direction:column;gap:12px;flex:1}
+.form input,.form select,.form textarea{width:100%;padding:18px 16px;border-radius:12px;border:2px solid #e5e5e5;font-size:16px;outline:none;background:white}
+.form input:focus,.form select:focus,.form textarea:focus{border-color:#111}
+.form textarea{min-height:90px;resize:none}
+.btn{background:#111;color:white;padding:20px;border:none;border-radius:12px;font-size:18px;font-weight:800;width:100%;cursor:pointer}
+.btn:active{transform:scale(0.98)}
+#result{margin:0 16px;padding:16px;border-radius:12px;background:#f9f9f9;font-size:16px;line-height:1.5;display:none}
+#result.show{display:block}
+.history{padding:16px;background:#fafafa;flex:1}
+.history h3{font-size:16px;margin-bottom:12px}
+.card{background:white;border-radius:12px;padding:12px 14px;margin-bottom:10px;border-left:5px solid #ddd;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.card.need{border-left-color:#00c853}
+.card.want{border-left-color:#ff1744}
+.card small{color:#666;font-size:12px}
 </style>
 </head>
 <body>
-<h2>🧠 Na Need or Na Want?</h2>
-<div class="card"><div class="score" id="score">Score: 0</div><small>Your Discipline Level — Train your brain</small></div>
-
-<div class="card">
-<input id="item" placeholder="What you want to buy? e.g Slippers">
-<input id="price" type="number" placeholder="Price ₦ e.g 5000">
-<select id="choice"><option>Choose...</option><option>NEED</option><option>WANT</option></select>
-<textarea id="why" placeholder="Why? Be honest... e.g to go to work / for shakara"></textarea>
-<button onclick="decide()">Check My Brain</button>
-<div id="result" style="margin-top:10px"></div>
+<div class="app">
+  <div class="header"><h1>🧠 Na Need or Na Want?</h1></div>
+  <div class="score-box">
+    <h2 id="score">Score: 0 😴</h2>
+    <small>Your Discipline Level — Train your brain</small>
+  </div>
+  <div class="form">
+    <input id="item" placeholder="What you want to buy? e.g Slippers">
+    <input id="price" type="number" placeholder="Price ₦ e.g 5000">
+    <select id="choice"><option>Choose...</option><option>NEED</option><option>WANT</option></select>
+    <textarea id="why" placeholder="Why? Be honest... e.g to go to work / for shakara"></textarea>
+    <button class="btn" onclick="decide()">Check My Brain</button>
+  </div>
+  <div id="result"></div>
+  <div class="history">
+    <h3>My History</h3>
+    <div id="history"></div>
+  </div>
 </div>
-
-<div class="card"><h4>My History</h4><div id="history"></div></div>
 <script src="app.js"></script>
 </body>
 </html>
