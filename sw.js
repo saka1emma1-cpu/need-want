@@ -1,4 +1,4 @@
-const CACHE='money-v9';
+const CACHE='money-v10';
 const FILES=['./','./index.html','./manifest.json'];
 self.addEventListener('install', e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)));
