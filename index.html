@@ -3,118 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Money Advisor v9 - PWA</title>
+<title>Money Advisor v10 - Settings</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#111111">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Money Advisor">
-<link rel="apple-touch-icon" href="icon-192.png">
 <style>
-* { box-sizing:border-box; margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; }
-html,body { width:100%; min-height:100vh; background:#f5f5f7; }
-.app { width:100%; min-height:100vh; background:white; display:flex; flex-direction:column; }
-.header { padding:14px 16px; font-weight:900; font-size:18px; border-bottom:1px solid #eee; background:white; position:sticky; top:0; z-index:10; display:flex; justify-content:space-between; align-items:center; }
-.score-box { background:#111; color:white; border-radius:16px; padding:14px; margin:8px 16px; display:flex; justify-content:space-between; align-items:center; }
-.stats-box { background:#f0f9ff; border:2px solid #111; border-radius:14px; padding:12px; margin:8px 16px; display:flex; justify-content:space-between; text-align:center; }
-.stat b { display:block; font-size:18px; }.stat small { font-size:11px; color:#666; }
-.form { padding:10px 16px; display:flex; flex-direction:column; gap:8px; }
-.form input,.form select { width:100%; padding:14px 12px; border-radius:10px; border:2px solid #e5e5e5; font-size:14px; background:white; outline:none; }
-.row { display:flex; gap:6px; }.row input { flex:1; }
-.btn { background:#111; color:white; padding:14px; border:none; border-radius:10px; font-size:14px; font-weight:900; width:100%; cursor:pointer; }
-.btn-green { background:#00c853; }.btn-blue { background:#2962ff; }.btn-outline { background:white; border:2px solid #111; color:#111; }
-.btn-install { background:#ff6d00; display:none; }
-.list-item { background:#fafafa; padding:8px 10px; border-radius:8px; margin-bottom:5px; display:flex; justify-content:space-between; align-items:center; border-left:4px solid #ddd; font-size:13px; }
-.list-item.need { border-left-color:#00c853; }.list-item.want { border-left-color:#ff1744; }
-#advice { margin:8px 16px; padding:14px; border-radius:12px; background:#fffde7; border:2px solid #111; display:none; line-height:1.5; font-size:14px; white-space:pre-line; }
-.calendar-wrap { margin:10px 16px; background:#fff; border:2px solid #111; border-radius:14px; padding:12px; }
-.cal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-weight:900; }
-.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center; }
-.cal-day-name { font-size:11px; font-weight:800; color:#999; padding:4px; }
-.cal-day { aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer; border:1px solid #f0f0f0; }
-.cal-day.today { border:2px solid #111; }
-.cal-day.saved { background:#00c853; color:white; border-color:#00c853; }
-.cal-day.no-save { background:#ff1744; color:white; border-color:#ff1744; }
-.cal-day.empty { background:#f5f5f5; color:#ccc; }
-.cal-day.amt { font-size:8px; font-weight:800; }
-.history-section { padding:12px 16px; background:#f9f9f9; }
-.day-card { background:white; padding:10px; border-radius:8px; margin-bottom:6px; border:1px solid #eee; font-size:13px; }
-.badge { font-size:9px; padding:2px 6px; border-radius:20px; font-weight:800; }
-.badge-need { background:#e8f5e9; color:#00c853; }.badge-want { background:#ffebee; color:#ff1744; }
-.toggle { display:flex; gap:5px; background:#eee; padding:3px; border-radius:20px; width:fit-content; }
-.toggle button { padding:5px 10px; border-radius:20px; border:none; font-weight:800; font-size:11px; }
-.notif-bar { margin:8px 16px; padding:10px; border-radius:10px; background:#fff3e0; border:1px solid #ff9800; font-size:12px; display:flex; justify-content:space-between; align-items:center; }
+:root{--bg:#f5f5f7;--fs:14px}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+html,body{width:100%;min-height:100vh;background:var(--bg);font-size:var(--fs)}
+.app{width:100%;min-height:100vh;background:white;display:flex;flex-direction:column}
+.header{padding:14px 16px;font-weight:900;font-size:18px;border-bottom:1px solid #eee;background:white;position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center}
+.score-box{background:#111;color:white;border-radius:16px;padding:14px;margin:8px 16px;display:flex;justify-content:space-between;align-items:center}
+.stats-box{background:#f0f9ff;border:2px solid #111;border-radius:14px;padding:12px;margin:8px 16px;display:flex;justify-content:space-between;text-align:center}
+.stat b{display:block;font-size:18px}.stat small{font-size:11px;color:#666}
+.form{padding:10px 16px;display:flex;flex-direction:column;gap:8px}
+.form input,.form select{width:100%;padding:14px 12px;border-radius:10px;border:2px solid #e5e5e5;font-size:14px;background:white;outline:none}
+.row{display:flex;gap:6px}.row input{flex:1}
+.btn{background:#111;color:white;padding:14px;border:none;border-radius:10px;font-size:14px;font-weight:900;width:100%;cursor:pointer}
+.btn-green{background:#00c853}.btn-blue{background:#2962ff}.btn-outline{background:white;border:2px solid #111;color:#111}.btn-install{background:#ff6d00;display:none}
+.list-item{background:#fafafa;padding:8px 10px;border-radius:8px;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;border-left:4px solid #ddd;font-size:13px}
+.list-item.need{border-left-color:#00c853}.list-item.want{border-left-color:#ff1744}
+#advice{margin:8px 16px;padding:14px;border-radius:12px;background:#fffde7;border:2px solid #111;display:none;line-height:1.5;font-size:14px;white-space:pre-line}
+.calendar-wrap{margin:10px 16px;background:#fff;border:2px solid #111;border-radius:14px;padding:12px}
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:900}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-day-name{font-size:11px;font-weight:800;color:#999;padding:4px}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid #f0f0f0}
+.cal-day.today{border:2px solid #111}.cal-day.saved{background:#00c853;color:white;border-color:#00c853}.cal-day.no-save{background:#ff1744;color:white;border-color:#ff1744}.cal-day.empty{background:#f5f5f5;color:#ccc}
+.cal-day.amt{font-size:8px;font-weight:800}
+.history-section{padding:12px 16px;background:#f9f9f9}
+.day-card{background:white;padding:10px;border-radius:8px;margin-bottom:6px;border:1px solid #eee;font-size:13px}
+.badge{font-size:9px;padding:2px 6px;border-radius:20px;font-weight:800}
+.badge-need{background:#e8f5e9;color:#00c853}.badge-want{background:#ffebee;color:#ff1744}
+.toggle{display:flex;gap:5px;background:#eee;padding:3px;border-radius:20px;width:fit-content}
+.toggle button{padding:5px 10px;border-radius:20px;border:none;font-weight:800;font-size:11px}
+.notif-bar{margin:8px 16px;padding:10px;border-radius:10px;background:#fff3e0;border:1px solid #ff9800;font-size:12px;display:flex;justify-content:space-between;align-items:center}
+.settings-btn{position:fixed;top:12px;right:12px;background:#fff;width:44px;height:44px;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.2);font-size:20px;display:flex;align-items:center;justify-content:center;z-index:100;cursor:pointer}
+.settings-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;padding:14px;overflow:auto}
+.settings-panel{background:#fff;border-radius:18px;padding:16px;max-width:500px;margin:20px auto}
+.set-row{display:flex;gap:6px;margin-top:8px}.set-row input,.set-row button{flex:1}
+.color-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}
+.color-dot{height:36px;border-radius:10px;border:3px solid transparent;cursor:pointer}.color-dot.active{border-color:#0f172a}
+.danger{background:#fee2e2;color:#991b1b}
 </style>
 </head>
 <body>
+<div class="settings-btn" onclick="openSettings()">⚙️</div>
+<div id="settingsOverlay" class="settings-overlay" onclick="if(event.target==this)closeSettings()">
+<div class="settings-panel">
+<h2 style="margin:0">⚙️ Settings</h2>
+<h4 style="margin-top:12px">🔤 Font Size</h4>
+<select id="setFont" onchange="changeFont()" style="width:100%;padding:14px;border-radius:12px;border:2px solid #e2e8f0">
+<option value="12px">Small</option><option value="14px">Medium</option><option value="16px">Large</option><option value="18px">XL</option><option value="20px">Big Eye</option>
+</select>
+<h4 style="margin-top:12px">🎨 Background</h4>
+<div class="color-grid">
+<div class="color-dot" style="background:#f5f5f7" onclick="changeBg('#f5f5f7',this)"></div>
+<div class="color-dot" style="background:#ffffff" onclick="changeBg('#ffffff',this)"></div>
+<div class="color-dot" style="background:#fef9c3" onclick="changeBg('#fef9c3',this)"></div>
+<div class="color-dot" style="background:#dcfce7" onclick="changeBg('#dcfce7',this)"></div>
+<div class="color-dot" style="background:#dbeafe" onclick="changeBg('#dbeafe',this)"></div>
+<div class="color-dot" style="background:#f3e8ff" onclick="changeBg('#f3e8ff',this)"></div>
+<div class="color-dot" style="background:#ffedd5" onclick="changeBg('#ffedd5',this)"></div>
+<div class="color-dot" style="background:#111111" onclick="changeBg('#111111',this)"></div>
+</div>
+<div class="set-row"><input id="customBg" type="color"><button class="btn" onclick="changeBg(document.getElementById('customBg').value,null)">Use Custom</button></div>
+<h4 style="margin-top:12px">🎯 Correct Saved Total</h4>
+<div class="set-row"><input id="setTotal" type="number" placeholder="Correct total"><button class="btn" onclick="updateTotal()">Save</button></div>
+<h4 style="margin-top:12px">🔔 Reminder</h4>
+<div class="set-row"><button class="btn" style="background:#ff9800" onclick="enableNotif()">Enable 7pm</button><button class="btn btn-outline" onclick="disableNotif()">Disable</button></div>
+<h4 style="margin-top:12px">📤 Export & Share</h4>
+<button class="btn" style="background:#0ea5e9" onclick="exportData()">Export Story</button>
+<button class="btn" style="background:#8b5cf6;margin-top:6px" onclick="shareApp()">Share App Link</button>
+<h4 style="margin-top:12px">🗑️ Danger Zone</h4>
+<button class="danger btn" onclick="resetCalendar()">Reset Calendar Only</button>
+<button class="danger btn" style="margin-top:6px" onclick="clearAll()">Clear All Data</button>
+<button class="btn" style="background:#f1f5f9;color:#111;margin-top:12px" onclick="closeSettings()">Close</button>
+</div>
+</div>
 <div class="app">
-<div class="header"><span>🧠 Money Advisor v9 📅</span><span id="score" style="font-size:11px; background:#111; color:white; padding:4px 8px; border-radius:20px;">Score: 0</span></div>
-<div class="score-box"><div><small style="font-size:11px;">Today Income</small><h2 style="font-size:22px;">₦<span id="incomeDisplay">0</span></h2></div><div style="text-align:right;"><small style="font-size:11px;">Balance Left</small><h2 id="balanceDisplay" style="font-size:20px;">₦0</h2></div></div>
+<div class="header"><span>🧠 Money Advisor v10 📅</span><span id="score" style="font-size:11px;background:#111;color:white;padding:4px 8px;border-radius:20px">Score: 0</span></div>
+<div class="score-box"><div><small style="font-size:11px">Today Income</small><h2 style="font-size:22px">₦<span id="incomeDisplay">0</span></h2></div><div style="text-align:right"><small style="font-size:11px">Balance Left</small><h2 id="balanceDisplay" style="font-size:20px">₦0</h2></div></div>
 <div class="stats-box"><div class="stat"><small>This Month Saved</small><b id="monthSaved">₦0</b></div><div class="stat"><small>🔥 Streak</small><b id="streak">0 days</b></div><div class="stat"><small>Best Save</small><b id="bestSave">₦0</b></div></div>
-
-<!-- INSTALL + NOTIF BAR -->
-<button id="installBtn" class="btn btn-install" style="margin:8px 16px; width:auto;">📲 Install App - Use Offline!</button>
-<div id="notifBar" class="notif-bar"><span>🔔 Get 7pm daily reminder?</span><button onclick="enableNotif()" style="background:#111; color:white; border:none; padding:6px 12px; border-radius:8px; font-weight:800;">Enable</button></div>
-
+<button id="installBtn" class="btn btn-install" style="margin:8px 16px;width:auto">📲 Install App - Use Offline!</button>
+<div id="notifBar" class="notif-bar"><span>🔔 Get 7pm daily reminder?</span><button onclick="enableNotif()" style="background:#111;color:white;border:none;padding:6px 12px;border-radius:8px;font-weight:800">Enable</button></div>
 <div class="form">
-<div class="row"><input id="dailyIncome" type="number" placeholder="Today made ₦? e.g 10000"><button class="btn" style="width:80px;" onclick="setIncome()">Set</button></div>
+<div class="row"><input id="dailyIncome" type="number" placeholder="Today made ₦? e.g 10000"><button class="btn" style="width:80px" onclick="setIncome()">Set</button></div>
 <input id="item" placeholder="Item: Fuel, Rice, Clothes"><div class="row"><input id="price" type="number" placeholder="Price ₦"><input id="why" placeholder="Why?"></div>
-<div class="row"><select id="choice" style="flex:1; padding:14px 12px; border-radius:10px; border:2px solid #e5e5e5; font-size:14px;"><option value="">NEED or WANT?</option><option>NEED</option><option>WANT</option></select><button class="btn btn-green" style="width:80px;" onclick="addItem()">+ Add</button></div>
+<div class="row"><select id="choice" style="flex:1;padding:14px 12px;border-radius:10px;border:2px solid #e5e5e5;font-size:14px"><option value="">NEED or WANT?</option><option>NEED</option><option>WANT</option></select><button class="btn btn-green" style="width:80px" onclick="addItem()">+ Add</button></div>
 <div id="spendList"></div>
 <div class="toggle"><button id="btnEng" class="active" onclick="setLang('en')">English</button><button id="btnPid" onclick="setLang('pidgin')">Pidgin 🔥</button></div>
 <button class="btn" onclick="advise()">💡 Get My Money Advice</button>
-<div class="row"><button class="btn btn-blue" style="flex:1;" onclick="sharePlan()">📤 Share WhatsApp</button><button class="btn btn-outline" style="flex:1;" onclick="clearDay()">🗑️ Clear</button></div>
+<div class="row"><button class="btn btn-blue" style="flex:1" onclick="sharePlan()">📤 Share WhatsApp</button><button class="btn btn-outline" style="flex:1" onclick="clearDay()">🗑️ Clear</button></div>
 </div>
 <div id="advice"></div>
-<div class="calendar-wrap"><div class="cal-header"><button onclick="changeMonth(-1)" style="border:none; background:#eee; padding:6px 12px; border-radius:8px;">◀</button><span id="calMonth">October 2026</span><button onclick="changeMonth(1)" style="border:none; background:#eee; padding:6px 12px; border-radius:8px;">▶</button></div><div class="cal-grid" id="calGrid"></div><div style="display:flex; gap:8px; margin-top:8px; font-size:11px;"><span><span style="width:10px; height:10px; background:#00c853; border-radius:3px; display:inline-block;"></span> Saved</span><span><span style="width:10px; height:10px; background:#ff1744; border-radius:3px; display:inline-block;"></span> No Save</span><span><span style="width:10px; height:10px; background:#f5f5f5; border:1px solid #ddd; border-radius:3px; display:inline-block;"></span> No Record</span></div><div id="calDetails" style="margin-top:10px; font-size:12px; background:#f9f9f9; padding:8px; border-radius:8px; display:none;"></div></div>
-<div class="history-section"><h4 style="font-size:14px;">📊 Recent Saves</h4><div id="historyList" style="margin-top:8px;"></div><div style="margin-top:8px;"><small id="summaryText" style="font-size:11px;"></small></div></div>
+<div class="calendar-wrap"><div class="cal-header"><button onclick="changeMonth(-1)" style="border:none;background:#eee;padding:6px 12px;border-radius:8px">◀</button><span id="calMonth">October 2026</span><button onclick="changeMonth(1)" style="border:none;background:#eee;padding:6px 12px;border-radius:8px">▶</button></div><div class="cal-grid" id="calGrid"></div>
+<div style="display:flex;gap:8px;margin-top:8px;font-size:11px"><span><span style="width:10px;height:10px;background:#00c853;border-radius:3px;display:inline-block"></span> Saved</span><span><span style="width:10px;height:10px;background:#ff1744;border-radius:3px;display:inline-block"></span> No Save</span><span><span style="width:10px;height:10px;background:#f5f5f5;border:1px solid #ddd;border-radius:3px;display:inline-block"></span> No Record</span></div><div id="calDetails" style="margin-top:10px;font-size:12px;background:#f9f9f9;padding:8px;border-radius:8px;display:none"></div></div>
+<div class="history-section"><h4 style="font-size:14px">📊 Recent Saves</h4><div id="historyList" style="margin-top:8px"></div><div style="margin-top:8px"><small id="summaryText" style="font-size:11px"></small></div></div>
 </div>
-
 <script>
-let income = parseInt(localStorage.getItem('nw_income')||'0'); let items = JSON.parse(localStorage.getItem('nw_items')||'[]'); let score = parseInt(localStorage.getItem('nw_score')||'0'); let calendarData = JSON.parse(localStorage.getItem('nw_calendar')||'{}'); let lang = localStorage.getItem('nw_lang')||'en'; let curDate = new Date(); curDate.setDate(1); let todayStr = new Date().toISOString().split('T')[0];
-const NEED_WORDS = ['rice','garri','beans','food','eat','family','medicine','drug','hospital','school','fees','book','rent','house','transport','fuel','light','nepa','water','work','job','business','learn','child','baby','uniform','provision','oil','salt','fuel','motor','bike']; const WANT_WORDS = ['shawarma','pizza','burger','iphone','ps5','bet','alcohol','beer','club','party','wig','makeup','jewelry','gold','shoe new','cloth new','netflix','shisha','game','clothes','aso ebi'];
-function smartDecide(text){ text=text.toLowerCase(); let n=0,w=0; NEED_WORDS.forEach(x=>{if(text.includes(x)) n+=2}); WANT_WORDS.forEach(x=>{if(text.includes(x)) w+=2}); if(text.match(/family.*eat|my family|baby|for work|business|to work|school/)) n+=5; if(text.match(/friends party|show off|shakara|flex|party/)) w+=4; if(n>w) return 'NEED'; if(w>n) return 'WANT'; return 'UNKNOWN'; }
-function setLang(l){ lang=l; localStorage.setItem('nw_lang',l); render(); }
-function setIncome(){ let v=parseInt(document.getElementById('dailyIncome').value); if(!v) return alert('Enter income'); income=v; localStorage.setItem('nw_income',income); render(); }
-function addItem(){ let item=document.getElementById('item').value.trim(); let price=parseInt(document.getElementById('price').value)||0; let why=document.getElementById('why').value.trim(); let userChoice=document.getElementById('choice').value; if(!item||!price) return alert('Enter item and price'); let brain=smartDecide(item+' '+why); if(brain==='UNKNOWN') brain=userChoice||'NEED'; items.push({item,price,why,userChoice,brain,id:Date.now()}); localStorage.setItem('nw_items',JSON.stringify(items)); document.getElementById('item').value=''; document.getElementById('price').value=''; document.getElementById('why').value=''; render(); }
-function deleteItem(id){ items=items.filter(x=>x.id!==id); localStorage.setItem('nw_items',JSON.stringify(items)); render(); }
-function advise(){ if(items.length===0) return alert('Add items first'); let needs=items.filter(i=>i.brain==='NEED'); let wants=items.filter(i=>i.brain==='WANT'); let needTotal=needs.reduce((s,i)=>s+i.price,0); let wantTotal=wants.reduce((s,i)=>s+i.price,0); let total=needTotal+wantTotal; let save=income-total; let adviceEl=document.getElementById('advice'); adviceEl.style.display='block'; let msg=''; let isPidgin = lang==='pidgin'; calendarData[todayStr] = {income, spent:total, saved:save, needs:needTotal, wants:wantTotal, items:items.length, date: new Date().toLocaleString()}; localStorage.setItem('nw_calendar',JSON.stringify(calendarData)); if(income===0){ msg = isPidgin? `⚠️ Put income first!` : `⚠️ Set income first.`; } else if(total>income){ let over=total-income; msg = isPidgin? `🚨 Omo over spend! Make ₦${income} but wan spend ₦${total} (over ₦${over}).\n✅ NEEDS ₦${needTotal}\n❌ COMOT WANTS ₦${wantTotal}\n📅 RED today` : `🚨 OVER! Income ₦${income} Spend ₦${total} Over ₦${over}.\n✅ NEEDS ₦${needTotal}\n❌ CUT WANTS ₦${wantTotal}\n📅 RED today`; score=Math.max(0,score-1); } else { if(isPidgin){ msg=`✅ Correct! Income ₦${income} Spend ₦${total} Save ₦${save}\n📅 GREEN today!`; msg+= save>=income*0.2? `🔥 You get sense! Save ₦${save} +5` : `💡 Try save 20%`; score+= save>=income*0.2?5:2; } else { msg=`✅ GOOD! Income ₦${income} Spend ₦${total} Save ₦${save}\n📅 GREEN today!`; msg+= save>=income*0.2? `🔥 Great save +5` : `💡 Save at least 20%`; score+= save>=income*0.2?5:2; } } adviceEl.innerText=msg; localStorage.setItem('nw_score',score); render(); renderCalendar(); calcStats(); }
-function calcStats(){ let ym = curDate.getFullYear()+'-'+String(curDate.getMonth()+1).padStart(2,'0'); let monthKeys = Object.keys(calendarData).filter(k=>k.startsWith(ym)); let monthTotal = monthKeys.reduce((s,k)=> s + (calendarData[k].saved>0? calendarData[k].saved:0),0); let best = monthKeys.length? Math.max(...monthKeys.map(k=>calendarData[k].saved)) : 0; document.getElementById('monthSaved').innerText='₦'+monthTotal; document.getElementById('bestSave').innerText='₦'+(best>0?best:0); let streak=0; let d=new Date(); for(let i=0;i<365;i++){ let ds=d.toISOString().split('T')[0]; let data=calendarData[ds]; if(data && data.saved>0){ streak++; } else { if(ds!==todayStr) break; else { if(data && data.saved<=0) break; } } d.setDate(d.getDate()-1); } document.getElementById('streak').innerText=streak+' days'+(streak>=3?' 🔥':''); }
-function sharePlan(){ if(items.length===0) return alert('Add items'); let total=items.reduce((s,i)=>s+i.price,0); let save=income-total; let text=`🧠 My Money Today\nIncome: ₦${income}\n`; items.forEach(i=>{ text+=`${i.brain==='NEED'?'✅':'❌'} ${i.item} - ₦${i.price} (${i.brain})\n`; }); text+=`\nTotal ₦${total} Save ₦${save} Score ${score}\nhttps://saka1emma1-cpu.github.io/need-want/`; window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank'); }
-function renderCalendar(){ let year=curDate.getFullYear(); let month=curDate.getMonth(); document.getElementById('calMonth').innerText = curDate.toLocaleString('default',{month:'long', year:'numeric'}); let firstDay=new Date(year,month,1).getDay(); let daysInMonth=new Date(year,month+1,0).getDate(); let grid=document.getElementById('calGrid'); grid.innerHTML=''; ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d=>{ let el=document.createElement('div'); el.className='cal-day-name'; el.innerText=d; grid.appendChild(el); }); for(let i=0;i<firstDay;i++){ let el=document.createElement('div'); el.className='cal-day empty'; grid.appendChild(el); } for(let d=1; d<=daysInMonth; d++){ let dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; let data=calendarData[dateStr]; let el=document.createElement('div'); el.className='cal-day'; if(dateStr===todayStr) el.classList.add('today'); if(data){ if(data.saved>0) el.classList.add('saved'); else el.classList.add('no-save'); el.innerHTML=`${d}<span class="cal-day amt">₦${data.saved}</span>`; } else { el.innerHTML=`${d}`; } el.onclick=()=>showDay(dateStr,data); grid.appendChild(el); } calcStats(); }
-function showDay(dateStr,data){ let det=document.getElementById('calDetails'); det.style.display='block'; if(!data){ det.innerHTML=`<b>${dateStr}</b><br>No record that day.`; } else { det.innerHTML=`<b>${dateStr}</b><br>Income ₦${data.income} | Spent ₦${data.spent} | <b style="color:${data.saved>0?'green':'red'}">Saved ₦${data.saved}</b><br>Needs ₦${data.needs} Wants ₦${data.wants}`; } }
-function changeMonth(dir){ curDate.setMonth(curDate.getMonth()+dir); renderCalendar(); }
-function render(){ document.getElementById('incomeDisplay').innerText=income; let total=items.reduce((s,i)=>s+i.price,0); let bal=income-total; let balEl=document.getElementById('balanceDisplay'); balEl.innerText='₦'+bal; balEl.style.color=bal<0?'#ff1744':'#00c853'; document.getElementById('score').innerText='Score: '+score; document.getElementById('btnEng').className=lang=='en'?'active':''; document.getElementById('btnPid').className=lang=='pidgin'?'active':''; document.getElementById('spendList').innerHTML=items.map(i=>`<div class="list-item ${i.brain==='NEED'?'need':'want'}"><div><b>${i.item} - ₦${i.price}</b> <span class="badge ${i.brain==='NEED'?'badge-need':'badge-want'}">${i.brain}</span><br><small>${i.why||''}</small></div><button onclick="deleteItem(${i.id})" style="background:none; border:none; font-size:18px;">✕</button></div>`).join(''); document.getElementById('summaryText').innerText= items.length? `Total: ₦${total} | Needs: ₦${items.filter(i=>i.brain==='NEED').reduce((s,i)=>s+i.price,0)} | Wants: ₦${items.filter(i=>i.brain==='WANT').reduce((s,i)=>s+i.price,0)}` : 'Add items'; let histKeys=Object.keys(calendarData).sort().reverse().slice(0,5); document.getElementById('historyList').innerHTML = histKeys.length? histKeys.map(k=>{ let h=calendarData[k]; return `<div class="day-card"><b>${k}</b> - ${h.saved>0?'✅ Saved ₦'+h.saved:'❌ No save'}<br><small>Income ₦${h.income} Spent ₦${h.spent}</small></div>`}).join('') : '<small style="color:#999">No saves yet</small>'; }
-function clearDay(){ if(confirm('Clear today?')){ items=[]; localStorage.removeItem('nw_items'); document.getElementById('advice').style.display='none'; render(); } }
-
-// --- PWA INSTALL ---
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e)=>{ e.preventDefault(); deferredPrompt=e; document.getElementById('installBtn').style.display='block'; });
-document.getElementById('installBtn').addEventListener('click', async ()=>{ if(deferredPrompt){ deferredPrompt.prompt(); const {outcome}=await deferredPrompt.userChoice; deferredPrompt=null; document.getElementById('installBtn').style.display='none'; }});
-
-// --- NOTIFICATIONS 7PM DAILY ---
-function enableNotif(){
-  if(!('Notification' in window)) return alert('Notifications not supported');
-  Notification.requestPermission().then(p=>{
-    if(p==='granted'){ localStorage.setItem('nw_notif','1'); document.getElementById('notifBar').innerHTML='✅ Reminder ON - 7pm daily 🔔'; scheduleDailyCheck(); new Notification('Money Advisor 🔔',{body:'You will get reminder 7pm daily - Oga have you saved today?'}); }
-  });
-}
-function scheduleDailyCheck(){
-  setInterval(()=>{
-    let now=new Date(); if(now.getHours()===19 && now.getMinutes()===0){
-      let last=localStorage.getItem('nw_last_notif'); let today=new Date().toDateString();
-      if(last!==today && localStorage.getItem('nw_notif')==='1' &&!calendarData[todayStr]){
-        new Notification('Money Advisor - 7pm Check 💰',{body: lang==='pidgin'? 'Oga! You never save today o! Open app make you plan your money' : 'You have not saved today yet! Open Money Advisor now'});
-        localStorage.setItem('nw_last_notif',today);
-      }
-    }
-  },60000);
-}
-if(localStorage.getItem('nw_notif')==='1'){ document.getElementById('notifBar').innerHTML='✅ Reminder ON - 7pm daily 🔔'; scheduleDailyCheck(); }
-if(Notification && Notification.permission==='granted' && localStorage.getItem('nw_notif')==='1'){ scheduleDailyCheck(); }
-
-render(); renderCalendar(); calcStats();
-// REGISTER SW
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').then(()=>console.log('SW ready')); }
+let income=parseInt(localStorage.getItem('nw_income')||'0');let items=JSON.parse(localStorage.getItem('nw_items')||'[]');let score=parseInt(localStorage.getItem('nw_score')||'0');let calendarData=JSON.parse(localStorage.getItem('nw_calendar')||'{}');let lang=localStorage.getItem('nw_lang')||'en';let curDate=new Date();curDate.setDate(1);let todayStr=new Date().toISOString().split('T')[0];
+let savedFont=localStorage.getItem('ma_font')||'14px';let savedBg=localStorage.getItem('ma_bg')||'#f5f5f7';
+function applySettings(){document.documentElement.style.setProperty('--bg',savedBg);document.documentElement.style.setProperty('--fs',savedFont)}
+applySettings();
+const NEED_WORDS=['rice','garri','beans','food','eat','family','medicine','drug','hospital','school','fees','book','rent','house','transport','fuel','light','nepa','water','work','job','business','learn','child','baby','uniform','provision','oil','salt','fuel','motor','bike'];const WANT_WORDS=['shawarma','pizza','burger','iphone','ps5','bet','alcohol','beer','club','party','wig','makeup','jewelry','gold','shoe new','cloth new','netflix','shisha','game','clothes','aso ebi'];
+function smartDecide(text){text=text.toLowerCase();let n=0,w=0;NEED_WORDS.forEach(x=>{if(text.includes(x))n+=2});WANT_WORDS.forEach(x=>{if(text.includes(x))w+=2});if(text.match(/family.*eat|my family|baby|for work|business|to work|school/))n+=5;if(text.match(/friends party|show off|shakara|flex|party/))w+=4;if(n>w)return 'NEED';if(w>n)return 'WANT';return 'UNKNOWN'}
+function setLang(l){lang=l;localStorage.setItem('nw_lang',l);render()}
+function setIncome(){let v=parseInt(document.getElementById('dailyIncome').value);if(!v)return alert('Enter income');income=v;localStorage.setItem('nw_income',income);render()}
+function addItem(){let item=document.getElementById('item').value.trim();let price=parseInt(document.getElementById('price').value)||0;let why=document.getElementById('why').value.trim();let userChoice=document.getElementById('choice').value;if(!item||!price)return alert('Enter item and price');let brain=smartDecide(item+' '+why);if(brain==='UNKNOWN')brain=userChoice||'NEED';items.push({item,price,why,userChoice,brain,id:Date.now()});localStorage.setItem('nw_items',JSON.stringify(items));document.getElementById('item').value='';document.getElementById('price').value='';document.getElementById('why').value='';render()}
+function deleteItem(id){items=items.filter(x=>x.id!==id);localStorage.setItem('nw_items',JSON.stringify(items));render()}
+function advise(){if(items.length===0)return alert('Add items first');let needs=items.filter(i=>i.brain==='NEED');let wants=items.filter(i=>i.brain==='WANT');let needTotal=needs.reduce((s,i)=>s+i.price,0);let wantTotal=wants.reduce((s,i)=>s+i.price,0);let total=needTotal+wantTotal;let save=income-total;let adviceEl=document.getElementById('advice');adviceEl.style.display='block';let msg='';let isPidgin=lang==='pidgin';calendarData[todayStr]={income,spent:total,saved:save,needs:needTotal,wants:wantTotal,items:items.length,date:new Date().toLocaleString()};localStorage.setItem('nw_calendar',JSON.stringify(calendarData));if(income===0){msg=isPidgin?`⚠️ Put income first!`:`⚠️ Set income first.`}else if(total>income){let over=total-income;msg=isPidgin?`🚨 Omo over spend! Make ₦${income} but wan spend ₦${total} (over ₦${over}).\n✅ NEEDS ₦${needTotal}\n❌ COMOT WANTS ₦${wantTotal}\n📅 RED today`:`🚨 OVER! Income ₦${income} Spend ₦${total} Over ₦${over}.\n✅ NEEDS ₦${needTotal}\n❌ CUT WANTS ₦${wantTotal}\n📅 RED today`;score=Math.max(0,score-1)}else{if(isPidgin){msg=`✅ Correct! Income ₦${income} Spend ₦${total} Save ₦${save}\n📅 GREEN today!`;msg+=save>=income*0.2?`🔥 You get sense! Save ₦${save} +5`:`💡 Try save 20%`;score+=save>=income*0.2?5:2}else{msg=`✅ GOOD! Income ₦${income} Spend ₦${total} Save ₦${save}\n📅 GREEN today!`;msg+=save>=income*0.2?`🔥 Great save +5`:`💡 Save at least 20%`;score+=save>=income*0.2?5:2}}adviceEl.innerText=msg;localStorage.setItem('nw_score',score);render();renderCalendar();calcStats()}
+function calcStats(){let ym=curDate.getFullYear()+'-'+String(curDate.getMonth()+1).padStart(2,'0');let monthKeys=Object.keys(calendarData).filter(k=>k.startsWith(ym));let monthTotal=monthKeys.reduce((s,k)=>s+(calendarData[k].saved>0?calendarData[k].saved:0),0);let best=monthKeys.length?Math.max(...monthKeys.map(k=>calendarData[k].saved)):0;document.getElementById('monthSaved').innerText='₦'+monthTotal;document.getElementById('bestSave').innerText='₦'+(best>0?best:0);let streak=0;let d=new Date();for(let i=0;i<365;i++){let ds=d.toISOString().split('T')[0];let data=calendarData[ds];if(data&&data.saved>0){streak++}else{if(ds!==todayStr)break;else{if(data&&data.saved<=0)break}}d.setDate(d.getDate()-1)}document.getElementById('streak').innerText=streak+' days'+(streak>=3?' 🔥':'')}
+function sharePlan(){if(items.length===0)return alert('Add items');let total=items.reduce((s,i)=>s+i.price,0);let save=income-total;let text=`🧠 My Money Today\nIncome: ₦${income}\n`;items.forEach(i=>{text+=`${i.brain==='NEED'?'✅':'❌'} ${i.item} - ₦${i.price} (${i.brain})\n`});text+=`\nTotal ₦${total} Save ₦${save} Score ${score}\nhttps://saka1emma1-cpu.github.io/need-want/`;window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank')}
+function renderCalendar(){let year=curDate.getFullYear();let month=curDate.getMonth();document.getElementById('calMonth').innerText=curDate.toLocaleString('default',{month:'long',year:'numeric'});let firstDay=new Date(year,month,1).getDay();let daysInMonth=new Date(year,month+1,0).getDate();let grid=document.getElementById('calGrid');grid.innerHTML='';['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d=>{let el=document.createElement('div');el.className='cal-day-name';el.innerText=d;grid.appendChild(el)});for(let i=0;i<firstDay;i++){let el=document.createElement('div');el.className='cal-day empty';grid.appendChild(el)}for(let d=1;d<=daysInMonth;d++){let dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;let data=calendarData[dateStr];let el=document.createElement('div');el.className='cal-day';if(dateStr===todayStr)el.classList.add('today');if(data){if(data.saved>0)el.classList.add('saved');else el.classList.add('no-save');el.innerHTML=`${d}<span class="cal-day amt">₦${data.saved}</span>`}else{el.innerHTML=`${d}`}el.onclick=()=>showDay(dateStr,data);grid.appendChild(el)}calcStats()}
+function showDay(dateStr,data){let det=document.getElementById('calDetails');det.style.display='block';if(!data){det.innerHTML=`<b>${dateStr}</b><br>No record that day.`}else{det.innerHTML=`<b>${dateStr}</b><br>Income ₦${data.income} | Spent ₦${data.spent} | <b style="color:${data.saved>0?'green':'red'}">Saved ₦${data.saved}</b><br>Needs ₦${data.needs} Wants ₦${data.wants}`}}
+function changeMonth(dir){curDate.setMonth(curDate.getMonth()+dir);renderCalendar()}
+function render(){document.getElementById('incomeDisplay').innerText=income;let total=items.reduce((s,i)=>s+i.price,0);let bal=income-total;let balEl=document.getElementById('balanceDisplay');balEl.innerText='₦'+bal;balEl.style.color=bal<0?'#ff1744':'#00c853';document.getElementById('score').innerText='Score: '+score;document.getElementById('btnEng').className=lang=='en'?'active':'';document.getElementById('btnPid').className=lang=='pidgin'?'active':'';document.getElementById('spendList').innerHTML=items.map(i=>`<div class="list-item ${i.brain==='NEED'?'need':'want'}"><div><b>${i.item} - ₦${i.price}</b> <span class="badge ${i.brain==='NEED'?'badge-need':'badge-want'}">${i.brain}</span><br><small>${i.why||''}</small></div><button onclick="deleteItem(${i.id})" style="background:none;border:none;font-size:18px">✕</button></div>`).join('');document.getElementById('summaryText').innerText=items.length?`Total: ₦${total} | Needs: ₦${items.filter(i=>i.brain==='NEED').reduce((s,i)=>s+i.price,0)} | Wants: ₦${items.filter(i=>i.brain==='WANT').reduce((s,i)=>s+i.price,0)}`:'Add items';let histKeys=Object.keys(calendarData).sort().reverse().slice(0,5);document.getElementById('historyList').innerHTML=histKeys.length?histKeys.map(k=>{let h=calendarData[k];return `<div class="day-card"><b>${k}</b> - ${h.saved>0?'✅ Saved ₦'+h.saved:'❌ No save'}<br><small>Income ₦${h.income} Spent ₦${h.spent}</small></div>`}).join(''):'<small style="color:#999">No saves yet</small>'}
+function clearDay(){if(confirm('Clear today?')){items=[];localStorage.removeItem('nw_items');document.getElementById('advice').style.display='none';render()}}
+function openSettings(){document.getElementById('setFont').value=savedFont;document.getElementById('settingsOverlay').style.display='block'}
+function closeSettings(){document.getElementById('settingsOverlay').style.display='none';render()}
+function changeFont(){let v=document.getElementById('setFont').value;savedFont=v;localStorage.setItem('ma_font',v);document.documentElement.style.setProperty('--fs',v)}
+function changeBg(c,el){savedBg=c;localStorage.setItem('ma_bg',c);document.documentElement.style.setProperty('--bg',c);if(el){document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('active'));el.classList.add('active')}}
+function updateTotal(){let v=parseInt(document.getElementById('setTotal').value);if(isNaN(v))return alert('Put number');let ym=curDate.getFullYear()+'-'+String(curDate.getMonth()+1).padStart(2,'0');let monthKeys=Object.keys(calendarData).filter(k=>k.startsWith(ym));if(monthKeys.length===0)return alert('No data this month');let diff=v - monthKeys.reduce((s,k)=>s+(calendarData[k].saved>0?calendarData[k].saved:0),0);let lastKey=monthKeys.sort().reverse()[0];calendarData[lastKey].saved+=diff;localStorage.setItem('nw_calendar',JSON.stringify(calendarData));alert('Corrected to ₦'+v);closeSettings()}
+function resetCalendar(){if(confirm('Reset calendar?')){calendarData={};localStorage.setItem('nw_calendar','{}');renderCalendar();closeSettings()}}
+function clearAll(){if(confirm('Clear ALL data?')){localStorage.clear();location.reload()}}
+function exportData(){let t='Money Advisor Story\n';Object.keys(calendarData).sort().forEach(k=>{let h=calendarData[k];t+=`${k} - Income ₦${h.income} Spent ₦${h.spent} Saved ₦${h.saved}\n`});navigator.clipboard.writeText(t).then(()=>alert('Copied!')).catch(()=>prompt('Copy:',t))}
+function shareApp(){if(navigator.share)navigator.share({title:'Money Advisor',text:'Track NEED vs WANT',url:location.href});else prompt('Link:',location.href)}
+function enableNotif(){if(!('Notification' in window))return alert('Not supported');Notification.requestPermission().then(p=>{if(p==='granted'){localStorage.setItem('nw_notif','1');document.getElementById('notifBar').innerHTML='✅ Reminder ON - 7pm daily 🔔';scheduleDailyCheck();new Notification('Money Advisor 🔔',{body:'Reminder ON - 7pm daily - Oga have you saved today?'})}})}
+function disableNotif(){localStorage.removeItem('nw_notif');document.getElementById('notifBar').innerHTML='<span>🔔 Get 7pm daily reminder?</span><button onclick="enableNotif()" style="background:#111;color:white;border:none;padding:6px 12px;border-radius:8px;font-weight:800">Enable</button>';alert('Reminder OFF')}
+function scheduleDailyCheck(){setInterval(()=>{let now=new Date();if(now.getHours()===19&&now.getMinutes()===0){let last=localStorage.getItem('nw_last_notif');let today=new Date().toDateString();if(last!==today&&localStorage.getItem('nw_notif')==='1'&&!calendarData[todayStr]){new Notification('Money Advisor - 7pm Check 💰',{body: lang==='pidgin'?'Oga! You never save today o! Open app make you plan your money' : 'You have not saved today yet! Open Money Advisor now'});localStorage.setItem('nw_last_notif',today)}}},60000)}
+if(localStorage.getItem('nw_notif')==='1'){document.getElementById('notifBar').innerHTML='✅ Reminder ON - 7pm daily 🔔';scheduleDailyCheck()}
+let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBtn').style.display='block'});document.getElementById('installBtn').addEventListener('click',async()=>{if(deferredPrompt){deferredPrompt.prompt();const {outcome}=await deferredPrompt.userChoice;deferredPrompt=null;document.getElementById('installBtn').style.display='none'}});
+render();renderCalendar();calcStats();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(()=>console.log('SW ready'))}
 </script>
 </body>
 </html>
