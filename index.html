@@ -4,26 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Na Need or Na Want? FINAL</title>
 <style>
-* { box-sizing:border-box; margin:0; padding:0; font-family:sans-serif; }
+* { box-sizing:border-box; margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; }
 html,body { width:100%; height:100%; background:#f5f5f7; }
 .app { width:100%; min-height:100vh; background:white; display:flex; flex-direction:column; }
-.header { padding:22px 16px; font-weight:900; font-size:22px; border-bottom:1px solid #eee; background:white; }
+.header { padding:22px 16px; font-weight:900; font-size:22px; border-bottom:1px solid #eee; background:white; position:sticky; top:0; z-index:10; }
 .score-box { background:#111; color:white; border-radius:18px; padding:26px; margin:14px 16px; text-align:center; }
 .score-box h2 { font-size:40px; font-weight:900; }
 .form { padding:16px; display:flex; flex-direction:column; gap:14px; }
-.form input, .form select, .form textarea { width:100%; padding:22px 16px; border-radius:14px; border:2px solid #e5e5e5; font-size:18px; background:white; }
-.btn { background:#111; color:white; padding:22px; border:none; border-radius:14px; font-size:20px; font-weight:900; width:100%; }
-#result { margin:0 16px 16px; padding:20px; border-radius:14px; background:#f0f0f0; font-size:18px; line-height:1.5; display:none; border:2px solid #111; }
+.form input, .form select, .form textarea { width:100%; padding:22px 16px; border-radius:14px; border:2px solid #e5e5e5; font-size:18px; background:white; outline:none; }
+.form input:focus, .form select:focus, .form textarea:focus { border-color:#111; }
+.form textarea { min-height:100px; }
+.btn { background:#111; color:white; padding:22px; border:none; border-radius:14px; font-size:20px; font-weight:900; width:100%; cursor:pointer; }
+.btn:active { transform:scale(0.98); }
+.btn-reset { background:#ff1744; margin-top:2px; }
+#result { margin:0 16px 16px; padding:20px; border-radius:14px; background:#fffde7; font-size:18px; line-height:1.5; display:none; border:2px solid #111; }
 .history { padding:16px; background:#fafafa; flex:1; min-height:400px; }
-.card { background:white; padding:14px; margin-bottom:10px; border-left:6px solid #ddd; border-radius:10px; }
+.card { background:white; padding:14px; margin-bottom:10px; border-left:6px solid #ddd; border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,0.06); }
 .card.need { border-left-color:#00c853; } .card.want { border-left-color:#ff1744; }
+.card small { color:#666; }
 </style>
 </head>
 <body>
 <div class="app">
-<div class="header">🧠 Na Need or Na Want? FINAL FULL</div>
+<div class="header">🧠 Na Need or Na Want? FINAL FULL v4</div>
 <div class="score-box"><h2 id="score">Score: 0 😴</h2><small>Discipline Level — Full Screen</small></div>
 <div class="form">
 <input id="item" placeholder="What you want to buy? e.g Rice for family">
@@ -31,6 +38,7 @@ html,body { width:100%; height:100%; background:#f5f5f7; }
 <select id="choice"><option value="">Choose...</option><option>NEED</option><option>WANT</option></select>
 <textarea id="why" placeholder="Why? e.g So my family can eat"></textarea>
 <button class="btn" onclick="decide()">Check My Brain</button>
+<button class="btn btn-reset" onclick="clearAll()">🗑️ Reset Score & History</button>
 </div>
 <div id="result"></div>
 <div class="history"><h3>My History</h3><div id="history"></div></div>
@@ -39,38 +47,68 @@ html,body { width:100%; height:100%; background:#f5f5f7; }
 let decisions = JSON.parse(localStorage.getItem('nw')||'[]');
 let score = parseInt(localStorage.getItem('nw_score')||'0');
 updateUI();
-const NEED_WORDS = ['rice','garri','beans','food','eat','family','medicine','drug','hospital','school','fees','book','rent','house','transport','fuel','light','nepa','water','work','job','business','learn','child','baby','uniform'];
-const WANT_WORDS = ['shawarma','pizza','burger','iphone','ps5','bet','alcohol','beer','club','party','wig','makeup','jewelry','gold','shoe new','cloth new','netflix'];
+const NEED_WORDS = ['rice','garri','beans','food','eat','family','medicine','drug','hospital','school','fees','book','rent','house','transport','fuel','light','nepa','water','work','job','business','learn','child','baby','uniform','church','mosque'];
+const WANT_WORDS = ['shawarma','pizza','burger','iphone','samsung s','ps5','bet','alcohol','beer','club','party','wig','lense','makeup','jewelry','gold','shoe new','cloth new','netflix','data extra','cigarette'];
 function smartDecide(text){
   text=text.toLowerCase(); let n=0,w=0;
   NEED_WORDS.forEach(x=>{if(text.includes(x)) n+=2});
   WANT_WORDS.forEach(x=>{if(text.includes(x)) w+=2});
-  if(text.match(/family.*eat|children.*eat|school.*fee|go.*work|to.*work|for.*business/)) n+=3;
-  if(text.match(/shakara|show.*off|impress|flex|party/)) w+=3;
+  if(text.match(/family.*eat|children.*eat|my family|school.*fee|go.*work|to.*work|for.*business|family can eat/)) n+=5;
+  if(text.match(/shakara|show.*off|impress|flex|party|enjoy/)) w+=3;
   if(n>w) return 'NEED'; if(w>n) return 'WANT'; return 'UNKNOWN';
 }
 function decide(){
- let item=document.getElementById('item').value;
+ let item=document.getElementById('item').value.trim();
  let price=parseInt(document.getElementById('price').value)||0;
- let why=document.getElementById('why').value;
+ let why=document.getElementById('why').value.trim();
  let userChoice=document.getElementById('choice').value;
- if(!item||!price||!why) return alert('Fill all');
+ if(!item||!price||!why||!userChoice) return alert('Fill all 4: item, price, choose NEED/WANT, why');
  let brain=smartDecide(item+' '+why);
  let days=Math.floor(price/200);
- let msg=''; let el=document.getElementById('result'); el.style.display='block';
- if(brain=='NEED'){ score+=5; msg=`✅ TRUE NEED: ${item} - ₦${price} - ${why} — protects family`; }
- else if(brain=='WANT'){ score=Math.max(0,score-3); msg=`❌ WANT: ${item} = ${days} days of future lost. You said ${userChoice}, I say ${brain}`; }
- else { if(userChoice=='NEED'){score+=2; msg=`✅ NEED (trust you) +2`;} else {score=Math.max(0,score-2); msg=`❌ WANT (trust you) -2`;} brain=userChoice; }
+ let el=document.getElementById('result'); el.style.display='block';
+ let msg='';
+ if(brain=='NEED'){
+   score+=5;
+   msg=`<b style="color:green">✅ TRUE NEED</b><br>"${item}" - ₦${price}<br>Why: ${why}<br><br>Good! Protects survival. <b>+5</b>`;
+ } else if(brain=='WANT'){
+   score=Math.max(0,score-3);
+   msg=`<b style="color:red">❌ WANT</b><br>"${item}" - ₦${price} = <b>${days} days</b> of future SECURITY gone.<br>You said ${userChoice}, I say ${brain}<br><br>Save ₦${price} for growth. <b>-3</b>`;
+ } else {
+   if(userChoice=='NEED'){score+=2; msg=`<b style="color:green">✅ NEED</b> (I trust you) +2`;} else {score=Math.max(0,score-2); msg=`<b style="color:red">❌ WANT</b> (I trust you) -2 / ${days} days lost`;}
+   brain=userChoice;
+ }
  decisions.unshift({item,price,choice:brain,userSaid:userChoice,why,date:new Date().toLocaleDateString()});
  localStorage.setItem('nw',JSON.stringify(decisions.slice(0,50)));
  localStorage.setItem('nw_score',score);
- el.innerHTML=msg; updateUI();
+ el.innerHTML=msg;
+ updateUI();
 }
 function updateUI(){
- document.getElementById('score').innerText='Score: '+score+(score<20?' 😴':score<50?' 🙂':' 💪');
- document.getElementById('history').innerHTML=decisions.map(d=>`<div class="card ${d.choice=='NEED'?'need':'want'}"><b>${d.item} ₦${d.price} - ${d.choice}</b> (You said ${d.userSaid})<br><small>${d.why} | ${d.date}</small></div>`).join('');
+ document.getElementById('score').innerText='Score: '+score+(score<20?' 😴':score<50?' 🙂':score<100?' 💪':' 🔥 MASTER');
+ let histEl=document.getElementById('history');
+ if(decisions.length===0){ histEl.innerHTML='<small style="color:#999">No history yet — start training</small>'; return; }
+ histEl.innerHTML=decisions.map(d=>{
+   let us = d.userSaid || d.choice || '?';
+   let ch = d.choice || us;
+   let wh = d.why || '';
+   let dt = d.date || '';
+   return `<div class="card ${ch=='NEED'?'need':'want'}"><b>${d.item} ₦${d.price} - ${ch}</b> (You said ${us})<br><small>${wh} | ${dt}</small></div>`;
+ }).join('');
 }
-if('serviceWorker' in navigator){ navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())); caches.keys().then(ks=>ks.forEach(k=>caches.delete(k))); }
+function clearAll(){
+ if(confirm('Clear all score & history?')){
+   localStorage.removeItem('nw');
+   localStorage.removeItem('nw_score');
+   decisions=[]; score=0;
+   document.getElementById('result').style.display='none';
+   updateUI();
+ }
+}
+// Kill any old service workers & caches
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));
+  if(window.caches){ caches.keys().then(ks=>ks.forEach(k=>caches.delete(k))); }
+}
 </script>
 </body>
 </html>
